@@ -21,27 +21,30 @@ args = parser.parse_args()
 #   -> dir: check if dir exists
 #   -> wildcard: check if there are any matching files
 # if narg > 1
-#   -> list of files 
+#   -> list of files
 
 # check for arguments
-f_in = args.file_in;
+f_in = args.file_in
+print(len(f_in))
+print(f_in)
 chars = '?*'
-if (len(f_in) == 2):
-  if (os.path.isdir(f_in[1])):
+if (len(f_in) == 1):
+  if (os.path.isdir(f_in[0])):
   # make filelist from dir content
     flist = glob.glob('./*.pdf')
-  elif any((c in chars) for c in f_in[1]):
+    print(flist)
+  elif any((c in chars) for c in f_in[0]):
   # make filelist from wildcard
-    flist = glob.glob('./'+f_in[1])
+    flist = glob.glob('./'+f_in[0])
 else:
-  flist = f_in[1:]
+  flist = f_in[:]
 
 # print(flist)
 
 mergedpdf = pdfmerge()
 idx = 0;
 for i in flist:
-  try: 
+  try:
     mergedpdf.append(i)
     print('appending '+i)
     idx += 1
@@ -50,7 +53,6 @@ for i in flist:
 if idx>1:
   mergedpdf.write(args.file_out[0])
   print('writing '+args.file_out[0])
-else: 
+else:
   mergedpdf.close()
   print('not making merged pdf: less than 2 files to merge')
-  
